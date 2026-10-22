@@ -32,7 +32,17 @@ For offline use, download the [standalone HTML demo](examples/the-whistle.html):
 
 ## Install
 
-Clone this repository into your user-level Codex skills directory:
+Find Quick Read on [skills.sh](https://skills.sh/chakcodes/quick-read/quick-read).
+
+Use the [Skills CLI](https://skills.sh/docs/cli) with Node.js 22.20 or later. From your project directory, run:
+
+```bash
+npx skills add chakcodes/quick-read --skill quick-read -a codex
+```
+
+This installs Quick Read for Codex in the current project. Add `-g` for a user-level installation across projects. Omit `-a codex` to choose another supported agent; interactive rendering depends on that agent's presentation capabilities.
+
+Alternatively, clone this repository into your user-level Codex skills directory:
 
 ```bash
 mkdir -p "$HOME/.agents/skills"
