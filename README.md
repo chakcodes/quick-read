@@ -16,6 +16,8 @@ Condensing necessarily leaves out detail and original expression; expansion keep
 
 ## Example: *The Whistle, A True Story*
 
+**[Try the live interactive demo](https://chakcodes.github.io/quick-read/)** in your browser. No installation is needed: expand any paragraph or switch between **Overview** and **Full text**.
+
 This example uses Benjamin Franklin's public-domain short piece from the [1828 edition on Wikisource](https://en.wikisource.org/wiki/Way_to_wealth%2C_or%2C_Poor_Richard%27s_maxims_improved/The_Whistle%2C_A_True_Story). The overviews are AI-written condensed rewrites, not Franklin's own words. The complete layer preserves the wording of this edition, including its historical spellings.
 
 **Default overview**
@@ -26,7 +28,7 @@ This example uses Benjamin Franklin's public-domain short piece from the [1828 e
 
 ![The Whistle with one section's complete original text expanded below its overview](docs/images/the-whistle-expanded.jpg)
 
-Try the [interactive HTML demo](examples/the-whistle.html): choose **Download raw file** on its GitHub file page, then open the downloaded file in a browser. GitHub's file view does not execute the HTML. The [example JSON](examples/the-whistle.json) contains both the condensed overviews and the complete text.
+For offline use, download the [standalone HTML demo](examples/the-whistle.html): choose **Download raw file** on its GitHub file page, then open the downloaded file in a browser. GitHub's file view does not execute the HTML. The [example JSON](examples/the-whistle.json) contains both the condensed overviews and the complete text.
 
 ## Install
 
