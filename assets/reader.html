@@ -1,0 +1,124 @@
+<article id="@@ROOT_ID@@" class="or-reader" lang="@@LANGUAGE@@" dir="@@DIRECTION@@" data-mode="overview" aria-labelledby="@@ROOT_ID@@-title">
+  <style>
+    #@@ROOT_ID@@ {
+      color-scheme: light dark;
+      --or-paper: light-dark(#fdfcf9, #21211f);
+      --or-ink: light-dark(#292a26, #e9e8e2);
+      --or-secondary: light-dark(#62645b, #b7b9ad);
+      --or-rule: light-dark(#e3e3d9, #41423b);
+      --or-hover: light-dark(#f2f2e9, #2b2d26);
+      --or-accent: light-dark(#4b5d42, #b2c4a3);
+      box-sizing: border-box;
+      width: 100%; max-width: 760px; margin: 0 auto; padding: 28px 32px 20px;
+      background: var(--or-paper); color: var(--or-ink);
+      border: 1px solid var(--or-rule); border-radius: 12px;
+      font-family: system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.75;
+      overflow-wrap: anywhere; text-align: start;
+    }
+    #@@ROOT_ID@@ * { box-sizing: border-box; }
+    #@@ROOT_ID@@ [hidden] { display: none !important; }
+    #@@ROOT_ID@@ h1 { font: inherit; font-size: 28px; font-weight: 500; margin: 0; padding-inline-end: 72px; }
+    #@@ROOT_ID@@ .or-byline { margin: 6px 0 0; color: var(--or-secondary); font-size: 13px; white-space: pre-wrap; }
+    #@@ROOT_ID@@ .or-notice { margin: 14px 0; color: var(--or-secondary); font-size: 13px; white-space: pre-wrap; }
+    #@@ROOT_ID@@ .or-modes { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+    #@@ROOT_ID@@ .or-modes button {
+      font: inherit; font-size: 13px; padding: 6px 14px; min-height: 36px;
+      border: 1px solid var(--or-rule); border-radius: 6px;
+      background: transparent; color: var(--or-ink); overflow-wrap: anywhere;
+    }
+    #@@ROOT_ID@@ .or-modes button:hover { background: var(--or-hover); }
+    #@@ROOT_ID@@ .or-modes button[aria-pressed="true"] { background: var(--or-ink); color: var(--or-paper); border-color: var(--or-ink); }
+    #@@ROOT_ID@@ details { border-top: 1px solid var(--or-rule); }
+    #@@ROOT_ID@@ summary { padding: 16px 4px; list-style-position: inside; }
+    #@@ROOT_ID@@ summary::marker { color: var(--or-accent); font-size: 12px; }
+    #@@ROOT_ID@@ summary:hover { background: var(--or-hover); }
+    #@@ROOT_ID@@ .or-summary-content { display: inline-flex; flex-direction: column; width: calc(100% - 24px); gap: 6px; vertical-align: top; }
+    #@@ROOT_ID@@ .or-heading { font-weight: 500; white-space: pre-wrap; }
+    #@@ROOT_ID@@ .or-overview { white-space: pre-wrap; }
+    #@@ROOT_ID@@ .or-disclosure-label { font-size: 12px; color: var(--or-accent); }
+    #@@ROOT_ID@@ .or-open-label { display: none; }
+    #@@ROOT_ID@@ details[open] .or-open-label { display: inline; }
+    #@@ROOT_ID@@ details[open] .or-closed-label { display: none; }
+    #@@ROOT_ID@@ .or-full-body { padding: 0 4px 20px; }
+    #@@ROOT_ID@@ .or-body-label { font-size: 12px; color: var(--or-secondary); margin: 0 0 8px; }
+    #@@ROOT_ID@@ .or-body-text { white-space: pre-wrap; overflow-wrap: anywhere; tab-size: 4; unicode-bidi: plaintext; }
+    #@@ROOT_ID@@[data-mode="full"] details { border: 0; }
+    #@@ROOT_ID@@[data-mode="full"] summary,
+    #@@ROOT_ID@@[data-mode="full"] .or-body-label { display: none; }
+    #@@ROOT_ID@@[data-mode="full"] .or-full-body { padding-top: 6px; }
+    #@@ROOT_ID@@ .or-source { border-top: 1px solid var(--or-rule); padding-top: 14px; margin-top: 4px; font-size: 12px; }
+    #@@ROOT_ID@@ .or-source a { color: var(--or-accent); text-underline-offset: 3px; }
+    @media (max-width: 480px) {
+      #@@ROOT_ID@@ { padding: 20px 16px 16px; }
+      #@@ROOT_ID@@ h1 { font-size: 24px; }
+    }
+    @media (pointer: coarse) { #@@ROOT_ID@@ .or-modes button { min-height: 44px; } }
+  </style>
+  <header>
+    <h1 id="@@ROOT_ID@@-title">@@TITLE@@</h1>
+    @@BYLINE@@
+    <p class="or-notice">@@NOTICE@@</p>
+  </header>
+  <div class="or-modes" hidden>
+    <button class="cursor-interaction" type="button" data-mode-button="overview" aria-pressed="true" aria-controls="@@ROOT_ID@@-sections">@@OVERVIEW_LABEL@@</button>
+    <button class="cursor-interaction" type="button" data-mode-button="full" aria-pressed="false" aria-controls="@@ROOT_ID@@-sections">@@FULL_LABEL@@</button>
+  </div>
+  <div id="@@ROOT_ID@@-sections">
+@@SECTIONS@@
+  </div>
+  @@SOURCE@@
+  <script>
+    (() => {
+      const root = document.getElementById('@@ROOT_ID@@');
+      const contentId = '@@CONTENT_ID@@';
+      const sections = Array.from(root.querySelectorAll('details[data-section]'));
+      const buttons = Array.from(root.querySelectorAll('[data-mode-button]'));
+      const controls = root.querySelector('.or-modes');
+      const sectionIds = new Set(sections.map(section => section.dataset.section));
+      let mode = 'overview';
+      let expanded = new Set();
+      let lastSnapshot = '';
+      const snapshot = () => ({ readerVersion: 1, contentId, mode, expanded: sections.filter(section => expanded.has(section.dataset.section)).map(section => section.dataset.section) });
+      const render = () => {
+        root.dataset.mode = mode;
+        buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.modeButton === mode)));
+        sections.forEach(section => { section.open = mode === 'full' || expanded.has(section.dataset.section); });
+      };
+      const restore = state => {
+        const saved = state?.privateContent;
+        const valid = saved?.readerVersion === 1 && saved.contentId === contentId;
+        mode = valid && saved.mode === 'full' ? 'full' : 'overview';
+        expanded = new Set(valid && Array.isArray(saved.expanded) ? saved.expanded.filter(id => sectionIds.has(id)) : []);
+        lastSnapshot = JSON.stringify(snapshot());
+        render();
+      };
+      const save = () => {
+        const state = snapshot();
+        const serialized = JSON.stringify(state);
+        if (serialized === lastSnapshot) return;
+        lastSnapshot = serialized;
+        if (typeof window.openai?.setWidgetState === 'function') {
+          try { Promise.resolve(window.openai.setWidgetState({ privateContent: state })).catch(() => {}); } catch (_) {}
+        }
+      };
+      restore(window.openai?.widgetState);
+      controls.hidden = false;
+      sections.forEach(section => section.addEventListener('toggle', () => {
+        if (mode !== 'overview') return;
+        const id = section.dataset.section;
+        if (section.open === expanded.has(id)) return;
+        if (section.open) expanded.add(id); else expanded.delete(id);
+        save();
+      }));
+      buttons.forEach(button => button.addEventListener('click', () => {
+        mode = button.dataset.modeButton;
+        render();
+        save();
+      }));
+      window.addEventListener('openai:set_globals', event => {
+        const globals = event.detail?.globals;
+        if (globals && Object.prototype.hasOwnProperty.call(globals, 'widgetState')) restore(globals.widgetState);
+      });
+    })();
+  </script>
+</article>

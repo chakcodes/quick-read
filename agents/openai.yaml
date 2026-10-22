@@ -1,0 +1,4 @@
+interface:
+  display_name: "Quick Read"
+  short_description: "Concise overviews with faithful, expandable full text"
+  default_prompt: "Use $quick-read to create a concise overview that preserves the source language, narrative perspective, and main logic, with the full text expandable by section."
